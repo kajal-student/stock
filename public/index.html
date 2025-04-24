@@ -75,7 +75,8 @@
     </div>
   </div>
 
-  <script>
+   <script>
+    
     document.getElementById("stockForm").addEventListener("submit", async function (e) {
       e.preventDefault();
       const formData = Object.fromEntries(new FormData(this).entries());
@@ -85,7 +86,7 @@
       formData.price = parseFloat(formData.price);
 
       try {
-        const res = await fetch("http://localhost:3000/add-stock", {
+        const res = await fetch("/add-stock", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData)
@@ -100,7 +101,7 @@
 
     document.getElementById("generatePdfButton").addEventListener("click", function () {
       const category = document.getElementById("categorySelector").value;
-      fetch(`http://localhost:3000/generate-pdf/${category}`)
+      fetch(`/generate-pdf/${category}`)
         .then(res => res.blob())
         .then(blob => {
           const link = document.createElement("a");
@@ -112,6 +113,8 @@
         })
         .catch(error => console.error("Error generating PDF:", error));
     });
-  </script>
+  </script>  
+  
+
 </body>
 </html>

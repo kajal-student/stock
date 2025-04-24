@@ -83,131 +83,10 @@
   
   <div id="stockList"></div>
 
- <!-- <script>
-    async function loadStockList() {
-      const res = await fetch("http://localhost:3000/stock-list");
-      const stocks = await res.json();
-
-      let table = "<table><tr><th>Article</th><th>Color</th><th>Size</th><th>Gender</th><th>Quantity</th></tr>";
-
-      for (let article in stocks) {
-        for (let color in stocks[article]) {
-          table += `<tr class="article-header"><td colspan="5">${article}</td></tr>`;
-          for (let size in stocks[article][color].sizes) {
-            table += `<tr class="color-header">
-                        <td></td>
-                        <td>${color}</td>
-                        <td>${size}</td>
-                        <td>${stocks[article][color].gender}</td>
-                        <td>${stocks[article][color].sizes[size]}</td>
-                      </tr>`;
-          }
-        }
-      }
-      table += "</table>";
-      document.getElementById("stockList").innerHTML = table;
-    }
-
-    loadStockList();
-  </script>-->
-  <!-- <script>
-    async function loadStockList() {
-      const res = await fetch("http://localhost:3000/stock-list");
-      const stocks = await res.json();
-  
-      let table = "<table><tr><th>Article</th><th>Color</th><th>Gender</th><th>Size</th><th>Quantity</th></tr>";
-  
-      for (let article in stocks) {
-        for (let color in stocks[article]) {
-          table += `<tr class="article-header"><td colspan="5">${article}</td></tr>`;
-          table += `<tr class="color-header">
-                      <td></td>
-                      <td>${color}</td>
-                      <td>${stocks[article][color].gender}</td>
-                      <td></td>
-                      <td></td>
-                    </tr>`;
-          for (let size in stocks[article][color].sizes) {
-            table += `<tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>${size}</td>
-                        <td>${stocks[article][color].sizes[size]}</td>
-                      </tr>`;
-          }
-        }
-      }
-  
-      table += "</table>";
-      document.getElementById("stockList").innerHTML = table;
-    }
-  
-    loadStockList();
-  </script> -->
-  <!-- <script>
-    async function loadStockList() {
-      const res = await fetch("http://localhost:3000/stock-list");
-      const stocks = await res.json();
-  
-      let table = "<table><tr><th>Article</th><th>Color</th><th>Gender</th><th>Size</th><th>Quantity</th><th>Action</th></tr>";
-  
-      for (let article in stocks) {
-        let totalQty = 0;
-        let firstRow = true;
-  
-        for (let color in stocks[article]) {
-          const gender = stocks[article][color].gender;
-          const sizes = stocks[article][color].sizes;
-  
-          for (let size in sizes) {
-            const qty = sizes[size];
-            totalQty += qty;
-  
-            table += `<tr>
-                        <td>${firstRow ? article : ''}</td>
-                        <td>${color}</td>
-                        <td>${gender}</td>
-                        <td>${size}</td>
-                        <td>${qty}</td>
-                        <td><button onclick="deleteStock('${article}', '${color}', '${size}')">🗑️ Delete</button></td>
-                      </tr>`;
-            firstRow = false;
-          }
-        }
-  
-        table += `<tr style="background:#dff0d8; font-weight:bold;">
-                    <td colspan="4">Total for ${article}</td>
-                    <td colspan="2">${totalQty}</td>
-                  </tr>`;
-      }
-  
-      table += "</table>";
-      document.getElementById("stockList").innerHTML = table;
-    }
-  
-    async function deleteStock(articleName, color, size) {
-      if (confirm(`Are you sure you want to delete stock: ${articleName} - ${color} - Size ${size}?`)) {
-        try {
-          const res = await fetch(`http://localhost:3000/delete-stock`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ articleName, color, size })
-          });
-          const msg = await res.text();
-          alert(msg);
-          loadStockList(); // Refresh table
-        } catch (err) {
-          alert("❌ Error deleting stock");
-        }
-      }
-    }
-  
-    loadStockList();
-  </script> -->
+ 
   <script>
     async function loadStockList() {
-      const res = await fetch("http://localhost:3000/stock-list");
+      const res = await fetch("/stock-list");
       const stocks = await res.json();
       const searchQuery = document.getElementById("searchBox")?.value.toLowerCase() || "";
   
@@ -252,7 +131,7 @@
     async function deleteStock(articleName, color, size) {
       if (confirm(`Are you sure you want to delete stock: ${articleName} - ${color} - Size ${size}?`)) {
         try {
-          const res = await fetch(`http://localhost:3000/delete-stock`, {
+          const res = await fetch(`/delete-stock`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ articleName, color, size })

@@ -6,7 +6,14 @@ const path = require("path");
 const PDFDocument = require("pdfkit");
 
 const app = express();
-app.use(cors());
+
+// Allow all origins during development, later restrict it to specific domains
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || "http://localhost:3000", // Dynamically pick frontend URL
+  methods: ["GET", "POST"],
+};
+
+app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
@@ -145,6 +152,7 @@ app.get("/generate-pdf/:category", async (req, res) => {
     res.status(500).send("Failed to generate PDF.");
   }
 });
+
 app.post("/delete-stock", async (req, res) => {
   const { articleName, color, size } = req.body;
   try {
@@ -156,8 +164,8 @@ app.post("/delete-stock", async (req, res) => {
   }
 });
 
-
-const port =  process.env.PORT || 3000;
+// Server listening on dynamic port
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log(`✅ Server running on http://localhost:${port}`);
+  console.log(`✅ Server running on ${process.env.BASE_URL || `http://localhost:${port}`}`);
 });
